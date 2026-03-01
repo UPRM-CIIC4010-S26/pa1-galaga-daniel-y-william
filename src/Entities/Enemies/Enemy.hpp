@@ -7,6 +7,7 @@
 
 class Enemy {
     protected:
+        int scoreValue = 0;
         float angle = 90;
         int cooldown = 60;
         int speed = 3;
@@ -31,6 +32,10 @@ class Enemy {
             hitBox = HitBox(x, y, 30, 30);
         }
 
+        int getScoreValue(){
+            return scoreValue;
+        }
+
         virtual void draw() = 0;
         virtual void update(std::pair<float, float> pos, HitBox target) = 0;
         virtual void attack(HitBox target) = 0;
@@ -44,7 +49,7 @@ class Enemy {
              }
         }
 
-        static void ManageEnemies(HitBox target) {
+        static void ManageEnemies(HitBox target, int &score) {
             for (std::pair<std::pair<float, float>, Enemy*>& p : Enemy::enemies) {
                 p.first.first += (p.first.first == 0) ? 0 : direction;
                 if (p.second) {
@@ -58,6 +63,7 @@ class Enemy {
                     }
 
                     if (p.second->health <= 0) {
+                        score += p.second->getScoreValue();
                         Animation::animations.push_back(
                             Animation(p.second->position.first, p.second->position.second, 155, 0, 33, 33, 30, 30, 4, ImageManager::SpriteSheet)
                         );
