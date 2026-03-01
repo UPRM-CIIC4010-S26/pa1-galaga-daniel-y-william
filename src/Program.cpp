@@ -165,6 +165,16 @@ void Program::KeyInputs() {
     
     if (IsKeyPressed('K')){
         score += 500;
+
+        int totalExtraLives = score/1000;
+        int newLives = totalExtraLives - extraLives;
+
+        if (newLives > 0){
+            lives += newLives;
+            extraLives += newLives;
+            if (lives > 5)
+                lives = 5;
+        }
     }
 
     if (gameOver && IsKeyPressed(KEY_ENTER)) {
