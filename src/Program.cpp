@@ -99,9 +99,15 @@ void Program::Draw() {
 void Program::ManageEnemyRespawns() {
     delay = std::max(delay - 1, 0);
 
+    int minCooldown = 100;
+    int cooldownReduction = score/1000 * 100;
+    int currentCooldown = 1080 - cooldownReduction;
+    if (currentCooldown < minCooldown) 
+        currentCooldown = minCooldown;
+
     respawnCooldown -= 1;
     if (respawnCooldown <= 0) {
-        respawnCooldown = 1080;
+        respawnCooldown = currentCooldown;
         for (std::pair<std::pair<float, float>, Enemy*>& p : Enemy::enemies) {
             if (!p.second && p.first.second != 150) {
                 int eType = GetRandomValue(1, 3);
@@ -174,7 +180,7 @@ void Program::KeyInputs() {
             extraLives += newLives;
             if (lives > 5)
                 lives = 5;
-        }
+            }
     }
 
     if (gameOver && IsKeyPressed(KEY_ENTER)) {
