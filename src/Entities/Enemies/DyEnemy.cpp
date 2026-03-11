@@ -3,9 +3,20 @@
 
 void DyEnemy::draw() {
     if (HitBox::drawHitbox) this->hitBox.draw();
-    DrawTexturePro(ImageManager::SpriteSheet, Rectangle{2, 128, 13, 14}, 
-                Rectangle{this->position.first + 15, this->position.second + 15, 30, 30}, 
-                Vector2{15, 15}, this->aimAngle, WHITE);
+
+    Rectangle tex;
+
+    if (GetRandomValue(0, 2) == 0) {
+        tex = Rectangle{2, 147, 13, 13}; 
+    } else if (GetRandomValue(0, 2) == 1){
+        tex = Rectangle{2, 128, 13, 14};
+    } else {
+        tex = Rectangle{2, 166, 13, 15};
+    }
+
+    DrawTexturePro(ImageManager::SpriteSheet, tex,
+        Rectangle{this->position.first + 15, this->position.second + 15, 30, 30},
+        Vector2{15, 15}, this->aimAngle, WHITE);
 }
 
 void DyEnemy::update(std::pair<float, float> pos, HitBox target) {
